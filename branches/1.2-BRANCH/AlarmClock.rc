@@ -160,7 +160,7 @@ END
 IDD_CONFIGALARMDLG DIALOGEX 0, 0, 304, 233
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Configure Alarm"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Alarm level",IDC_LEVEL_LABEL,7,7,61,219
     LTEXT           "Static",IDC_ALARM_LEVEL_VIEW,25,19,15,11,SS_CENTERIMAGE
@@ -236,7 +236,8 @@ CAPTION "About"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,156,7,50,14
-    LTEXT           "Winamp Alarm v1.21 (23.01.2004)",IDC_PROGNAME,7,7,108,8
+    LTEXT           "Winamp Alarm v1.22-dev (20.02.2005)",IDC_PROGNAME,7,7,
+                    122,8
     LTEXT           "Harri Salokorpi",IDC_OWNNAME,7,17,47,8
     LTEXT           "hsalokor@ee.oulu.fi",IDC_EMAIL,7,27,64,8
     LTEXT           "Kind regards go to my testers who have reported bugs and given valuable suggestions:",

@@ -282,64 +282,53 @@ extern "C" LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
 	// Alarm is triggered -> load playlist etc.
 	if(state == STATE_ALARM_TRIGGER)
 	{
-
-		// Check if winamp is already playing .>
-		ret = SendMessage( plugin.hwndParent, WM_USER, 0, 104 );
-
 		time( &fadeStarted );
 		fadeVol = 0;
 
-		if( ret != 1 )
+		if( configuration->getConfig()->getPlaylistStatus() == false )
 		{
-			if( configuration->getConfig()->getPlaylistStatus() == false )
+			configuration->getConfig()->getPlaylistName( buffer );
+
+			fstream*	playliststream	=	new fstream(buffer, ios::in | ios::nocreate, filebuf::sh_read);
+			
+			// Check if file was opened successfully
+			if(playliststream->is_open() == TRUE)
 			{
-				configuration->getConfig()->getPlaylistName( buffer );
+				ret		=	SendMessage(plugin.hwndParent, WM_USER , 0 , 101);	// Clear playlist
+				shellplaycommand[0] = '\0';
+				strcat( shellplaycommand, winampdir );
+				strcat( shellplaycommand, "winamp.exe /ADD " );
+				strcat( shellplaycommand, "\"" );
+				strcat( shellplaycommand, buffer );
+				strcat( shellplaycommand, "\"" );
 
-				fstream*	playliststream	=	new fstream(buffer, ios::in | ios::nocreate, filebuf::sh_read);
-				
-				// Check if file was opened successfully
-				if(playliststream->is_open() == TRUE)
-				{
-					ret		=	SendMessage(plugin.hwndParent, WM_USER , 0 , 101);	// Clear playlist
-					shellplaycommand[0] = '\0';
-					strcat( shellplaycommand, winampdir );
-					strcat( shellplaycommand, "winamp.exe /ADD " );
-					strcat( shellplaycommand, "\"" );
-					strcat( shellplaycommand, buffer );
-					strcat( shellplaycommand, "\"" );
-
-					// Tell winamp to load our playlist
-					::WinExec( shellplaycommand, false);
-				}
-			}
-
-			configuration->getConfig()->getRepeatStatus() ? SendMessage( plugin.hwndParent, WM_USER , 1 , 253 ) : SendMessage( plugin.hwndParent, WM_USER , 0 , 253 );
-			configuration->getConfig()->getShuffleStatus() ? SendMessage( plugin.hwndParent, WM_USER , 1 , 252 ) : SendMessage( plugin.hwndParent, WM_USER , 0 , 252 );
-
-			// Trigger acknowledged -> alarming... NOTE: MUST BE TRIGGERED BEFORE WinExec() OR KABOOM! Recursion and stack overflow 8)
-			alarm->setState(STATE_ALARMING);	
-
-			// Set volume to 0
-			SendMessage(plugin.hwndParent, WM_USER , 0 , 122);
-
-			alarmExecuted	=	false;			// Mark alarm not yet executed (needed by the STATE_ALARMING)
-
-			if( configuration->getConfig()->getSnoozeStatus() == true )
-			{
-				if( snoozeWindowOpen == false)
-				{
-					snooze	=	new CSnoozeAlarmDlg();
-					snooze->init( plugin.hwndParent );
-					snooze->Create( IDD_SNOOZEDIALOG );
-					snooze->CenterWindow( CWnd::GetDesktopWindow() );
-					snooze->ShowWindow( SW_SHOW );
-					snoozeWindowOpen = true;
-				}
+				// Tell winamp to load our playlist
+				::WinExec( shellplaycommand, false);
 			}
 		}
-		else
+
+		configuration->getConfig()->getRepeatStatus() ? SendMessage( plugin.hwndParent, WM_USER , 1 , 253 ) : SendMessage( plugin.hwndParent, WM_USER , 0 , 253 );
+		configuration->getConfig()->getShuffleStatus() ? SendMessage( plugin.hwndParent, WM_USER , 1 , 252 ) : SendMessage( plugin.hwndParent, WM_USER , 0 , 252 );
+
+		// Trigger acknowledged -> alarming... NOTE: MUST BE TRIGGERED BEFORE WinExec() OR KABOOM! Recursion and stack overflow 8)
+		alarm->setState(STATE_ALARMING);	
+
+		// Set volume to 0
+		SendMessage(plugin.hwndParent, WM_USER , 0 , 122);
+
+		alarmExecuted	=	false;			// Mark alarm not yet executed (needed by the STATE_ALARMING)
+
+		if( configuration->getConfig()->getSnoozeStatus() == true )
 		{
-			alarm->setState( STATE_WAITING );
+			if( snoozeWindowOpen == false)
+			{
+				snooze	=	new CSnoozeAlarmDlg();
+				snooze->init( plugin.hwndParent );
+				snooze->Create( IDD_SNOOZEDIALOG );
+				snooze->CenterWindow( CWnd::GetDesktopWindow() );
+				snooze->ShowWindow( SW_SHOW );
+				snoozeWindowOpen = true;
+			}
 		}
 	}
 

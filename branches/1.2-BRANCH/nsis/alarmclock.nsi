@@ -1,10 +1,10 @@
-Name "AlarmClock v1.2"
-ComponentText "This will install Winamp AlarmClock plugin version v1.22dev-20040107"
+Name "AlarmClock v1.22-dev"
+ComponentText "This will install Winamp AlarmClock plugin version v1.22dev-20050220"
 
 CrcCheck on
 
-DirText "This will install Winamp AlarmClock plugin version v1.22dev-20040107"
-OutFile AlarmClock-1.22dev-20050107.exe
+DirText "This will install Winamp AlarmClock plugin version v1.22dev-20050220"
+OutFile AlarmClock-1.22dev-20050220.exe
 
 InstallDir $PROGRAMFILES\Winamp
 SetOutPath $INSTDIR\Plugins

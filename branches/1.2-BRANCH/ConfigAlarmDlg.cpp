@@ -996,7 +996,7 @@ void CConfigAlarmDlg::OnDeltaposFadeTimeSpin(NMHDR* pNMHDR, LRESULT* pResult)
 	
 	if(pNMUpDown->iDelta < 0)
 	{
-		if(i < 10)
+		if(i < 60)
 		{
 			i++;
 		}

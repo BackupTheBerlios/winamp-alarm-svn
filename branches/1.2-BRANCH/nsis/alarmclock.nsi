@@ -3,8 +3,8 @@ ComponentText "This will install Winamp AlarmClock v1.21 plugin (23.1.2004)"
 
 CrcCheck on
 
-DirText "This will install Winamp AlarmClock v1.21 plugin (23.1.2004)."
-OutFile AlarmClock-1.21.exe
+DirText "This will install Winamp AlarmClock plugin version v1.22dev-20040107
+OutFile AlarmClock-1.22dev-20040107.exe
 
 InstallDir $PROGRAMFILES\Winamp
 SetOutPath $INSTDIR\Plugins

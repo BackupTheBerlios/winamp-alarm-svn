@@ -1,0 +1,304 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Times New Roman;}{\f1\froman\fcharset0 Times New Roman;}}
+\viewkind4\uc1\pard\ul\f0\fs48 NSIS Documentation\fs32\par
+\ulnone\fs20\par
+\ul\b\fs36 License\b0 :\ulnone\fs20\par
+\par
+\pard\fi450  Copyright (C) 1999-2000 Nullsoft, Inc.\par
+\par
+  This software is provided 'as-is', without any express or implied\par
+  warranty.  In no event will the authors be held liable for any damages\par
+  arising from the use of this software.\par
+\par
+  Permission is granted to anyone to use this software for any purpose,\par
+  including commercial applications, and to alter it and redistribute it\par
+  freely, subject to the following restrictions:\par
+\par
+  1. The origin of this software must not be misrepresented; you must not\par
+     claim that you wrote the original software. If you use this software\par
+     in a product, an acknowledgment in the product documentation would be\par
+     appreciated but is not required.\par
+  2. Altered source versions must be plainly marked as such, and must not be\par
+     misrepresented as being the original software.\par
+  3. This notice may not be removed or altered from any source distribution.\par
+\par
+  Justin Frankel\par
+  justin@nullsoft.com\par
+\par
+  This source distribution includes portions of zlib. see source/makenssi/zlib/zlib.h for \par
+  its license and so forth. Note that this license is also borrowed from zlib.\par
+\pard\par
+\ul\b\fs36 source code notes:\par
+\ulnone\b0\fs20\par
+  * the code for the executable header is in source/exehead\par
+  * the code for the compiler is in source/makenssi (even though it's makensis in the distribution,\par
+     the projects still generate makenssi.exe. oh well, tough shit).\par
+  * the compiler is written in obfuscated C++ (no, really.)\par
+  * the executable header is written in C and one file of C++ (for some COM crap).\par
+  * I've only gotten this to compile using VC++ 6. VC++ 4.2 or lcc is probably possible (though lcc \par
+     will have a hard time with the C++)\par
+  * the executable header uses its own mini-libc for small size. I'm sure we could optimize the header\par
+     size down a ton, but I've lost interest.\par
+  * enjoy. don't send me email complaining how much my code sucks. patches are gladly accepted, \par
+     though- send to the email address listed in the license.\par
+  * peace. \par
+\fs36\par
+\ul\b documentation\ulnone\b0\fs20\par
+\par
+This documentation is for the Nullsoft Installation System (NSIS) v1.0h\par
+Features of installer:\par
+  * SuperPiMP[tm] technology.\par
+  * Generates win32 executable installer.\par
+  * Uninstall support (installer can automagically generate an uninstaller)\par
+  * Optional installer self-verification (using adler32)\par
+  * Robust, efficient zlib compression (with automatic disabling for efficiency)\par
+  * Approximately 50k overhead over compressed data size\par
+  * Ability to display a license agreement.\par
+  * Customizable icon and checkmark bitmaps.\par
+  * Up to 4 install configurations (usually Minimal, Typical, Full), and custom configuration\line   * No practical limits on number of files, size of files, etc.\par
+  * No practical limit on number of install sections.\par
+  * Low memory/resource requirements.\par
+  * Very fast and efficient.\par
+  * Easily generated from a script using included compiler\par
+      * Script is easily editable, easily auto-generated\par
+  * Optional Silent mode for automated installations\par
+  * Optional installation logging for debug purposes\par
+  * Optional Winamp directory detection, and Winamp plug-in directory detection.\par
+  * Many scriptable install functions including: \par
+       * File extraction (with configurable overwrite parameters)\par
+       * ActiveX control registration/deregistration\par
+       * Netscape plug-in installation/deinstallation\par
+       * File/directory deletion\par
+       * Executable execution \par
+       * Registry key setting/deleting\par
+       * INI file writing\par
+       * Shortcut creation\par
+       * Window finding based on class name (for is-application-running detection)\par
+       * User notification using MessageBox().\par
+  * Completely free for any use. Source included. See license above.\par
+\ul\b\fs36\par
+version history\ulnone\b0\fs20\par
+\pard\sb100\sa100\par
+v1.0h (8/23/00)\par
+  * improvements to compression (larger blocks) - faster compression (configurable in fileform.h)\par
+  * nifty status display for compressing in makensis\par
+v1.0g \f1 (8/1/00)\par
+  * uninstall bug fix\par
+v1.0f (7/31/00) \par
+  * first public release\par
+\pard\f0\par
+\ul\fs32\par
+\par
+NSIS .nsi script format\ulnone\fs20\par
+\b\par
+Simple notes:\b0\par
+Lines beginning with ; or # are comments.\par
+Non-comment lines are in the form of\par
+\b <command>\b0  \i <parameters>\par
+\i0\par
+The number of parameters for a given command must match exactly. The parser is very particulate.\par
+Some commands may have optional parameters. To represent strings that have spaces, use quotes.\par
+\par
+\i   this is a test\tab\tab "this is a test"\i0  or \i 'this is a test'\i0  or \i `this is a test`\i0\par
+ \i  they're bad\tab\tab "they're bad" or `they're bad`\par
+  I said "yo, I'm crazy"\i0\tab\i `I said "yo, I'm crazy"`\par
+\i0\par
+quotes only have the property of containing a parameter if they begin the parameter.\par
+i.e. \par
+\i   yo"this is a test"\i0   will be multiple parameters.\par
+It's a little weird, I know, but oh well.\par
+\par
+Note that to help debug your installer, you may enable logging at runtime by holding down shift during the \par
+install process, until the directory selection portion comes up, and the option 'log install' shows up. Check\par
+the checkbox and resume installation, and a file install.log will be created in the installation directory.\par
+\par
+\par
+\ul\b\fs24 Installer configuration setting commands\par
+\ulnone\b0\fs20\par
+\ul\b Header setting commands:\ulnone\b0\par
+\tab\b Name \b0\i <name>\par
+\i0\tab\tab This setting sets the name of the installer. The name is usually simply\par
+\tab\tab the product name such as 'Winamp' or 'Nullsoft Winamp'. Note that this value\par
+\tab\tab effects how the install directory is formed if the user selects their own \par
+\tab\tab (see \b InstallDir\b0 , below).\par
+\tab\b Icon\b0  \i <path to icon.ico>\i0\par
+\tab\tab This setting changes the icon of the installer. The icon MUST be a 32x32x16 icon only,\par
+\tab\tab and must be exactly 766 bytes long.\par
+\tab\b OutFile\b0  \i install.exe\i0\par
+\tab\tab This setting specifies the output file that the MakeNSIS should write to.\par
+\tab\b SilentInstall \b0\i <enableflag>\i0\par
+\tab\tab This setting lets you specify whether or not the installer should be silent. \i Enableflag\i0  should\par
+\tab\tab be either 'normal', 'silent', or 'silentlog'. If it is 'silent' or 'silentlog', the default configuration is installed \par
+\tab\tab and nothing more. MessageBoxes are still displayed on error. The compiler will optimize the installer for\par
+\tab\tab this type of install (i.e. remove sections, remove license text, etc).\par
+\tab\b CRCCheck \b0\i <crcheckflag>\i0\par
+\tab\tab This settings lets you specify whether or not the installerwill perform a CRC check on itself before\par
+\tab\tab allowing an install. valid options are \i 'on' \i0  and \i 'off'\i0 .\i\par
+\i0\tab\b UninstallIcon\b0  \i <path to icon.ico>\i0  \par
+\tab\tab This setting changes the icon of the uninstaller. Again, the icon MUST be a 32x32x16 icon only, \par
+\tab\tab and must be exactly 766 bytes long.\par
+\tab\b UninstallText\b0  \i <text>\i0\par
+\tab\tab This setting lets you specify the text on the first page of the uninstaller.\par
+\tab\b UninstallExeName\b0  \i <exename.exe>\i0\par
+\tab\tab This setting lets you change the executable name of the uninstaller. It will be dropped in $INSTDIR.\par
+\par
+\ul\b License page setting commands:\ulnone\par
+\b0\tab\b LicenseText \b0\i <text>\i0\par
+\tab\tab This setting lets you specify a string that is above the license text. Omit this\par
+\tab\tab if you do not wish to have a license displayed.\par
+\tab\b LicenseData \b0\i <full path to license data file>\par
+\i0\tab\tab This setting will let you specify a text file to use for the license that the user \par
+\tab\tab can read. Omit this if you do not wish to have a license displayed. Note that the file must\par
+\tab\tab be in the evil DOS text format (\\r\\n, yeah!)\par
+\par
+\ul\b Component page setting commands\b0\par
+\ulnone\tab\b ComponentText \b0\i <text goes here>\i0\par
+\tab\tab This setting lets you specify a string that is above the component list. This \par
+\tab\tab can be something that specifies what it is you are actually installing.\par
+\tab\b InstType \b0\i <install type name>\i0\par
+\tab\tab This command lets you add install types. You can use it up to 4 types, each one specifying\par
+\tab\tab the name of the install. The first type is the default (so make it 'Typical'). Each type is numbered,\par
+\tab\tab starting at 1. See \b SectionIn\b0  for information on how those numbers are used.\par
+\tab\b EnabledBitmap\b0  \i <path to bitmap.bmp>\par
+\i0\tab\tab This command replaces the enabled state of the listbox for the component page. It MUST be a \par
+\tab\tab 20x20x16, 358 byte BMP.\par
+\tab\b DisabledBitmap\b0  \i <path to bitmap.bmp>\par
+\i0\tab\tab This command replaces the disabled state of the listbox for the component page. It MUST be a \par
+\tab\tab 20x20x16, 358 byte BMP.\par
+\par
+\ul\b Directory selection page setting commands\b0\par
+\ulnone\tab\b DirText \b0\i <text>\i0\par
+\tab\tab This setting lets you specify a string that is above the directory selection area\par
+\tab\tab\par
+\tab\b InstallDir \b0\i <default install directory>\i0\par
+\tab\tab This setting changes what the default installation directory is. See the \b variables\b0  section for \par
+\tab\tab variables you can use to make this string (especially $PROGRAMFILES). Note that if you use\par
+\tab\tab $PROGRAMFILES\\Winamp, the installer will automatically check the registry to see if Winamp \par
+\tab\tab is installed, and if it is, it will use that path instead.\par
+\tab\b InstallDirRegKey \b0\i <root key> <subkey> <key name>\par
+\i0\tab\tab This command checks to see if a string is in the registry, then uses it for the install dir if that key\par
+\tab\tab is there. Use this so your programs can detect if they are upgrading and install to the same path.\par
+\tab\tab If this command is present, it will override the \b InstallDir\b0  command if the registry key is present\par
+\tab\tab and non-empty, otherwise it will fall back to the \b InstallDir\b0  default.\par
+\i\tab\tab\i0\par
+\par
+\ul\b\fs24 Installation execution commands\par
+\ulnone\b0\fs20\par
+Following the header commands, you have the installation execution commands. These commands are executed in \par
+order by the installer. They are grouped into sections, each of which can be independently installed. Sections are begun\par
+with the \b Section\b0  command, but you don't need to create the first (default) section, it is created implicitly. \par
+\par
+\ul\b Commands:\ulnone\b0\par
+\tab\b Section\b0  \i <section name>\i0\par
+\tab\tab This command creates a new section. If \i <section name>\i0  begins with a - then it is a required section and\par
+\tab\tab the user will never have the option of disabling it.\par
+\tab\tab If the section name is 'Uninstall', then the installer will generate $INSTALLDIR\\nsuninst.exe (or something\par
+\tab\tab different if the \b UninstallExeName\b0  command is used), which, when executed will prompt the user whether or \par
+\tab\tab not an uninstall is desired, then execute the commands in the uninstall section. Upon uninstall, $INSTALLDIR \par
+\tab\tab is determined by the location of the nsuninst.exe.\par
+\tab\b SectionIn\b0  \i <section index list>\i0\par
+\tab\tab This command specifies which Install Types (see \b InstallType\b0 ) this section defaults to the enabled state in. Can\par
+\tab\tab be comma delimited, or just a plain list of numbers (1234 or 1,2,3,4 are both fine)\par
+\tab\b SetOutPath\b0  \i <output path>\par
+\i0\tab\tab This command sets the output path for files following that use the \b File\b0  command. Must be full pathname, usually\par
+\tab\tab is just \b $INSTDIR\b0 .\par
+\tab\b SetOverwrite\b0  \i <overwriteflag>\i0\par
+\tab\tab This command sets the overwrite flag which is used by the \b File\b0  command to determine whether or not\par
+\tab\tab the file should overwrite any existing files that are present. If \i overwriteflag\i0  is 'on', files are overwritten (this\par
+\tab\tab is the default). If \i overwriteflag\i0  is 'off', files that are already present are not overwritten. If \i overwriteflag\i0  is 'try',\par
+\tab\tab files are overwritten if possible (meaning that if the file is not able to be written to, it is skipped). Note that this isn't \par
+\tab\tab actually an installer command, but just a state modifier in the script compiler. Hence this instruction\par
+\tab\tab takes effect even if the section it is in isn't installed.\par
+\tab\b SetCompress\b0  \i <compressflag>\i0\par
+\tab\tab This command sets the compress flag which is used by the \b File\b0  and \b InstNSPlug\b0  commands to determine whether or \par
+\tab\tab not the file should be compressed. If \i compressflag\i0  is 'auto', then files are compressed if the compressed size is smaller\par
+\tab\tab than the uncompressed size (usually the case). If \i compressflag\i0  is set to 'force', then compression is always used, and if\par
+\tab\tab\i compressflag\i0  is 'off' then compression is not used. Note that this isn't actually an installer command, but just a state modifier \par
+\tab\tab in the script compiler. Hence this instruction takes effect even if the section it is in isn't installed.\par
+\tab\b File\b0  \i <full path to file>\i0\par
+\tab\tab This command adds a file to be extracted to the current output path specified with \b SetOutPath\b0 .\par
+\tab\tab Note that the file name is \i <output path>\b\\\b0 <filename portion of full path to file>\i0 . Wildcards are supported.\par
+\tab\b Exec \b0\i [wait] <full path of file to execute> <parameters>\i0\par
+\tab\tab This command will execute the specfied program. If \i wait\i0  is specified, it will also wait for the completion\par
+\tab\tab of that process. Note that the file specified must exist on the target system, not the compiling system.\par
+\tab\b Delete \b0\i <path to file(s) .. wildcards are allowed>\i0\par
+\tab\tab This command will delete the parameter from the target system. Useful for if you want to drop something\par
+\tab\tab off in the temp directory using \b File\b0 , then \b Exec\b0  it with the \i wait\i0  flag, then \b Delete\b0  it.\par
+\tab\b RMDir\b0  \i <full path to directory>\i0\par
+\tab\tab Attempt to remove a directory. For safety reasons, the directory must be empty.\par
+\tab\b CreateShortCut <\b0\i link.lnk> <target> <parameters> <icon file> <icon index>\i0\par
+\tab\tab This command will create a shortcut. Note that the quotes are REQUIRED. \i Parameters\i0  and \i icon file \i0 are optional,\par
+\tab\tab but you must use "" to specify an empty string. Icon index should be 0 if not used.\par
+\tab\b RegDLL\b0\i  [-]<full path to ActiveX control DLL file>\i0\par
+\tab\tab Loads the specified DLL and calls either DllRegisterServer or DllUnregisterServer based on whether or not\par
+\tab\tab the first parameter is a dash (-).\par
+\tab\b InstNSPlug\b0  \i <full path to netscape plug-in DLL on the source system>\i0\par
+\tab\tab This command installs into all instances of Netscape 3+ the plug-in pointed to by the parameter. The name for\par
+\tab\tab the plug-in is retrieved from the file portion of the parameter.\par
+\tab\b DeleteNSPlug\b0  \i <netscape plug-in name (i.e. npplug.dll)>\i0\par
+\tab\tab This command removes from all instances of Netscape 3+ the plug-in pointed to by the parameter. Netscape must not\par
+\tab\tab be running.\par
+\tab\b WriteRegStr\b0\i  <root key> <subkey> <key name> <value>\i0\par
+\tab\tab This command writes a string to the registry. \i <root key>\i0  needs to be one of the following:\par
+\tab\tab\tab HKEY_CLASSES_ROOT,HKEY_LOCAL_MACHINE,HKEY_CURRENT_USER,\par
+\tab\tab\tab HKEY_USERS, or HKEY_CURRENT_CONFIG.\par
+\tab\tab You may use variable names in \i <value>\i0  and \i <key name>\i0  but not in \i <subkey>\i0 .\par
+\tab\b WriteRegDword\b0\i  <root key> <subkey> <key name> <value>\i0\par
+\tab\tab This command writes a string to the registry. \i <root key>\i0  needs to be one of the following:\par
+\tab\tab\tab HKEY_CLASSES_ROOT,HKEY_LOCAL_MACHINE,HKEY_CURRENT_USER,\par
+\tab\tab\tab HKEY_USERS, or HKEY_CURRENT_CONFIG.\par
+\tab\tab You may use variable names in and \i <key name>\i0  but not in \i <subkey>\i0 .\par
+\tab\b WriteRegBin\b0\i  <root key> <subkey> <key name> <valuedata>\i0\par
+\tab\tab This command writes a string to the registry. \i <root key>\i0  needs to be one of the following:\par
+\tab\tab\tab HKEY_CLASSES_ROOT,HKEY_LOCAL_MACHINE,HKEY_CURRENT_USER,\par
+\tab\tab\tab HKEY_USERS, or HKEY_CURRENT_CONFIG.\par
+\tab\tab\i <valuedata>\i0  is in hexadecimal (i.e. DEADBEEF01223211151). You may use variable names in \i <key name> \par
+\tab\tab\i0 but not in \i <subkey>\i0 .\par
+\tab\b DeleteRegValue\b0  \i <root key> <subkey> <key name>\i0\par
+\i\tab\tab\i0 Deletes a registry Value\i\par
+\i0\tab\b DeleteRegKey\b0  \i <root key> <subkey>\i0\par
+\i\tab\tab\i0 Deletes a registry key\par
+\tab\b WriteINIStr\b0\i  <ini filename> <section name> <entry name> <value>\i0\par
+\tab\tab Writes \i <entry name>\i0 =\i <value>\i0  into \i <ini filename>\i0  in [\i <section name>\i0 ].  All of the parameters can contain variables.\par
+\b\tab FindWindow\i  \b0 <mode> <windowclass> <messageboxtext>\i0\par
+\tab\tab This command checks for a window named \i <windowclass>\i0  and does an action based on what \i <mode>\i0  is set to.\par
+\tab\tab If \i <mode>\i0  is 'close', this command will attempt to close the window using WM_CLOSE for up to 8 seconds.\par
+\tab\tab If \i <mode>\i0  is 'closeinstant', this command will send a WM_CLOSE message to the window and continue\par
+\tab\tab If \i <mode>\i0  is 'prompt', this command will prompt the user with \i <messageboxtext>\i0  until the window is closed manually.\par
+\tab\tab Note that  \i <messageboxtext>\i0  is required even if \i <mode>\i0  is not 'prompt' (it can be empty, but two quotes must be there).\par
+\tab\b MessageBox \b0\i <mb options> <messagebox text>\i0\par
+\tab\tab This command will display a messagebox containing \i <messagebox text>\i0 . \i <mb options>\i0  must be one or more of\par
+\tab\tab the following (when more, they must be delimited with | and no spaces).\par
+\tab\tab\tab\b MB_OK\b0\tab\tab\tab\tab Display with an OK button\par
+        \tab\tab\tab\b MB_OKCANCEL\b0\tab\tab Display with an OK and a cancel button\par
+        \tab\tab\tab\b MB_ABORTRETRYIGNORE \b0\tab Display with abort, retry, ignore buttons.\par
+        \tab\tab\tab\b MB_RETRYCANCEL\b0\tab\tab Display with retry and cancel buttons\par
+        \tab\tab\tab\b MB_YESNO\b0\tab\tab\tab Display with yes and no buttons\par
+        \tab\tab\tab\b MB_YESNOCANCEL\b0\tab\tab Display with yes, no, cancel buttons\par
+        \tab\tab\tab\b MB_ICONEXCLAMATION\b0\tab Display with exclamation icon\par
+        \tab\tab\tab\b MB_ICONINFORMATION\b0\tab Display with information icon\par
+        \tab\tab\tab\b MB_ICONQUESTION\b0\tab\tab Display with question mark icon\par
+        \tab\tab\tab\b MB_ICONSTOP\b0\tab\tab\tab Display with stop icon\par
+        \tab\tab\tab\b MB_TOPMOST\b0\tab\tab\tab Make messagebox topmost\par
+        \tab\tab\tab\b MB_SETFOREGROUND\b0\tab\tab Set foreground\par
+\tab\tab\tab\b MB_RIGHT\b0\tab\tab\tab Right align text\par
+\par
+\par
+\ul\b\fs24 Variables\ulnone\b0\par
+\fs20\par
+The following are variables you can use in most items:\par
+\tab\b $PROGRAMFILES\b0\tab The program files directory (usually C:\\Program Files).\par
+\tab\b $DESKTOP\b0\tab\tab The windows desktop directory (usually C:\\windows\\desktop).\par
+\tab\b $INSTDIR\b0\tab\tab The installation directory, as chosen by the user (or defaulted to).\par
+\tab\b $WAVISDIR\b0\tab\tab If winamp.ini exsists in $INSTDIR, this will query it for the visualization\par
+\tab\tab\tab\tab plug-in directory. If it doesn't exist, this defaults to $INSTDIR\\Plugins\par
+\tab\b $WADSPDIR\b0\tab\tab If winamp.ini exsists in $INSTDIR, this will query it for the DSP\par
+\tab\tab\tab\tab plug-in directory. If it doesn't exist, this defaults to $INSTDIR\\Plugins\par
+\tab\b $WINDIR\b0\tab\tab The windows directory (usually C:\\windows)\par
+\tab\b $SYSDIR\b0\tab\tab The windows system directory (usually C:\\windows\\system or C:\\winnt\\system32)\par
+\tab\b $TEMP\b0\tab\tab\tab The system temporary directory (usually C:\\windows\\temp)\par
+\tab\b $STARTMENU\b0\tab\tab The start menu folder (useful in adding start menu items using \b CreateShortCut\b0 )\par
+\tab\b $QUICKLAUNCH\b0\tab The quick launch folder for IE4 active desktop and above. If quick launch is not\par
+\tab\tab\tab\tab available, simply returns $TEMP.\par
+\tab\b $$\b0\tab\tab\tab Use to represent $.\par
+}
+ 

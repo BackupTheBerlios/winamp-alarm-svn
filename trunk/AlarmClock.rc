@@ -1,0 +1,274 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "AlarmClock DLL\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "AlarmClock\0"
+            VALUE "LegalCopyright", "Copyright (C) 2004 Harri Salokorpi\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "AlarmClock.DLL\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "AlarmClock Dynamic Link Library\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.K.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\AlarmClock.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_CONFIGALARMDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 297
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 226
+    END
+
+    IDD_SNOOZEDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 291
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 35
+    END
+
+    IDD_ABOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 206
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 104
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CONFIGALARMDLG DIALOGEX 0, 0, 304, 233
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Configure Alarm"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Alarm level",IDC_LEVEL_LABEL,7,7,61,219
+    LTEXT           "Static",IDC_ALARM_LEVEL_VIEW,25,19,15,11,SS_CENTERIMAGE
+    LTEXT           "%",IDC_ALARM_LEVEL_TAG,43,21,8,8
+    CONTROL         "Slider1",IDC_ALARM_LEVEL_SLIDER,"msctls_trackbar32",
+                    TBS_AUTOTICKS | TBS_VERT | TBS_TOP | WS_BORDER | 
+                    WS_TABSTOP,22,31,30,162
+    CONTROL         "Fade in",IDC_FADEIN_STATUS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,12,199,43,8
+    CONTROL         "Spin1",IDC_FADE_TIME_SPIN,"msctls_updown32",
+                    UDS_ARROWKEYS,11,209,10,11
+    LTEXT           "Static",IDC_FADE_IN_TIME,24,211,14,8
+    LTEXT           "minutes",IDC_STATIC,40,211,25,8
+    GROUPBOX        "Settings",IDC_SETTINGS_GROUP,71,7,174,113
+    CONTROL         "Alarm clock on",IDC_ALARMCLOCK_ON,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,77,18,63,10
+    CONTROL         "Snoozing on",IDC_SNOOZE_STATUS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,77,34,54,10
+    LTEXT           "(",IDC_BLOCK,137,35,8,8
+    CONTROL         "Spin2",IDC_SNOOZE_TIME_SPIN,"msctls_updown32",
+                    UDS_ARROWKEYS,145,33,11,12
+    CONTROL         "Static",IDC_SNOOZE_TIME,"Static",SS_LEFTNOWORDWRAP | 
+                    SS_CENTERIMAGE | WS_GROUP,158,33,14,12
+    LTEXT           "minutes   )",IDC_SNOOZE_TIME_LABEL,175,35,33,8
+    LTEXT           "Alarm type",IDC_ALARM_TYPE,77,48,34,8
+    COMBOBOX        IDC_ALARM_SETTING,75,59,103,41,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_HOURFORMAT_SELECTION,181,59,57,44,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Playlist or song",IDC_PLAYLIST_TAG,75,74,48,8
+    EDITTEXT        IDC_PLAYLISTNAME,75,85,114,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Select ...",IDC_SELECTPLAYLIST,192,85,46,14
+    CONTROL         "Repeat",IDC_REPEAT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,75,105,39,10
+    CONTROL         "Shuffle",IDC_SHUFFLE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,119,106,38,10
+    CONTROL         "Use current playlist",IDC_PLAYLIST_TOGGLE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,161,106,75,10
+    GROUPBOX        "Alarm settings",IDC_ALARM_SETTINGS,71,123,175,103
+    LTEXT           "Time",IDC_ALARM_TIME_LABEL,77,134,16,8
+    EDITTEXT        IDC_HOUR,77,146,21,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MINUTE,103,146,20,13,ES_AUTOHSCROLL
+    COMBOBOX        IDC_AMPM_SELECTOR,130,146,31,39,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Current alarm active",IDC_ALARM_ACTIVE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,77,165,79,10
+    LTEXT           "Weekday",IDC_WEEKDAY_LABEL,169,134,32,8
+    CONTROL         "List1",IDC_WEEKDAYLIST,"SysListView32",LVS_LIST | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOCOLUMNHEADER | 
+                    LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,167,145,72,75,
+                    WS_EX_LEFTSCROLLBAR
+    DEFPUSHBUTTON   "OK",IDOK,247,11,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,247,28,50,14
+    PUSHBUTTON      "About",IDABOUT,247,47,50,14
+    LTEXT           "Time format",IDC_TIMEFORMAT_LABEL,181,48,38,8
+END
+
+IDD_SNOOZEDIALOG DIALOG DISCARDABLE  0, 0, 298, 42
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Snoozing..."
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Snooze...",IDSNOOZE,7,21,93,14
+    PUSHBUTTON      "Stop playing",IDSTOP,102,21,89,14
+    PUSHBUTTON      "Close ",IDCLOSE,193,21,98,14
+    LTEXT           "Snooze time: ",IDC_SNOOZETIME,7,7,44,8
+    LTEXT           "00:00",IDC_TIME,54,7,38,8
+END
+
+IDD_ABOUT DIALOG DISCARDABLE  0, 0, 213, 111
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,156,7,50,14
+    LTEXT           "Winamp Alarm v1.21 (23.01.2004)",IDC_PROGNAME,7,7,108,8
+    LTEXT           "Harri Salokorpi",IDC_OWNNAME,7,17,47,8
+    LTEXT           "hsalokor@ee.oulu.fi",IDC_EMAIL,7,27,64,8
+    LTEXT           "Kind regards go to my testers who have reported bugs and given valuable suggestions:",
+                    IDC_STATIC,7,42,199,17
+    LTEXT           "Perttu Immonen, Vesa Salo, Jussi Kostamo, Josh Burnett, Barry Weingart, Greg Nelson and others I have forgotten from this list.",
+                    IDC_STATIC,17,64,189,27
+END
+
+#endif    // English (U.K.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\AlarmClock.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
